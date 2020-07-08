@@ -50,6 +50,8 @@ if (platform === 'darwin') {
   throw new Error(`The platform ${platformArch} is not currently supported!`);
 }
 
+console.log(`Downloading ANGLE from: ${ANGLE_BINARY_URI}`);
+
 // Dependency storage paths:
 const depsPath = path.join(__dirname, '..', 'deps');
 
@@ -72,7 +74,7 @@ async function downloadAngleLibs(callback) {
 
   // If HTTPS_PROXY, https_proxy, HTTP_PROXY, or http_proxy is set
   const proxy = process.env['HTTPS_PROXY'] || process.env['https_proxy'] ||
-      process.env['HTTP_PROXY'] || process.env['http_proxy'] || '';
+    process.env['HTTP_PROXY'] || process.env['http_proxy'] || '';
 
   // Using object destructuring to construct the options object for the
   // http request.  the '...url.parse(ANGLE_BINARY_URI)' part fills in the host,
@@ -81,7 +83,7 @@ async function downloadAngleLibs(callback) {
   const options = {
     ...url.parse(ANGLE_BINARY_URI),
     agent: https.globalAgent,
-    headers: {'Cache-Control': 'no-cache'}
+    headers: { 'Cache-Control': 'no-cache' }
   };
 
   if (proxy !== '') {
@@ -102,42 +104,42 @@ async function downloadAngleLibs(callback) {
       const outputFile = fs.createWriteStream(tempFileName);
 
       response.on('data', chunk => bar.tick(chunk.length))
-          .pipe(outputFile)
-          .on('close', async () => {
-            const zipFile = new zip(tempFileName);
-            zipFile.extractAllTo(depsPath, true /* overwrite */);
+        .pipe(outputFile)
+        .on('close', async () => {
+          const zipFile = new zip(tempFileName);
+          zipFile.extractAllTo(depsPath, true /* overwrite */);
 
-            await unlink(tempFileName);
+          await unlink(tempFileName);
 
-            // The .lib files for the two .dll files we care about have a name
-            // the compiler doesn't like - rename them:
-            await rename(
-                path.join(
-                    depsPath, 'angle', 'out', 'Release', 'libGLESv2.dll.lib'),
-                path.join(
-                    depsPath, 'angle', 'out', 'Release', 'libGLESv2.lib'));
-            await rename(
-                path.join(
-                    depsPath, 'angle', 'out', 'Release', 'libEGL.dll.lib'),
-                path.join(depsPath, 'angle', 'out', 'Release', 'libEGL.lib'));
+          // The .lib files for the two .dll files we care about have a name
+          // the compiler doesn't like - rename them:
+          await rename(
+            path.join(
+              depsPath, 'angle', 'out', 'Release', 'libGLESv2.dll.lib'),
+            path.join(
+              depsPath, 'angle', 'out', 'Release', 'libGLESv2.lib'));
+          await rename(
+            path.join(
+              depsPath, 'angle', 'out', 'Release', 'libEGL.dll.lib'),
+            path.join(depsPath, 'angle', 'out', 'Release', 'libEGL.lib'));
 
-            if (callback !== undefined) {
-              callback();
-            }
-          });
+          if (callback !== undefined) {
+            callback();
+          }
+        });
     } else {
       // All other platforms use a tarball:
       response
-          .on('data',
-              (chunk) => {
-                bar.tick(chunk.length);
-              })
-          .pipe(tar.x({C: depsPath, strict: true}))
-          .on('close', () => {
-            if (callback !== undefined) {
-              callback();
-            }
-          });
+        .on('data',
+          (chunk) => {
+            bar.tick(chunk.length);
+          })
+        .pipe(tar.x({ C: depsPath, strict: true }))
+        .on('close', () => {
+          if (callback !== undefined) {
+            callback();
+          }
+        });
     }
   });
 
