@@ -10,7 +10,7 @@ if (process.env["NODE_GLES_SKIP_BINARY_DOWNLOAD_FOR_CI"] || process.env["npm_con
 const pkg = require(path.resolve(__dirname, "..", "package.json"));
 const packageVersion = pkg.version;
 const baseUrl = process.env["NODE_GLES_BINARY_URL"] || process.env["npm_config_node_gles_binary_url"] || "https://github.com/Prior99/node-gles/releases/download";
-const url = `${baseUrl}/${packageVersion}/${fileName.baseName}`;
+const url = `${baseUrl}/v${packageVersion}/${fileName.baseName}`;
 
 console.info(`Downloading node-gles prebuilt binary from "${url}".`);
 

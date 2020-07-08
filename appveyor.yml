@@ -55,7 +55,7 @@
     - provider: GitHub
       artifact: node-gles
       auth_token:
-        secure: ik15UkTkBf82DZ3+VHAX0jQA19IpLe91Y0yJ3j33QGYz99qve8yJzjVQJHNjBuzz
+        secure: PDgiDvKvBUpuJvlorgcKJuf8SeyB5+2ZEPBYvZgoQlJNY3SQhwRbf2sB3AMHLLJQ
       draft: false
       prerelease: false
       on:
