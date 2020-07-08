@@ -48,9 +48,6 @@
     - yarn install
   build_script:
     - yarn build
-  test_script:
-    - ps: set-location -path C:\repositories\node-gles
-    - yarn test
   artifacts:
     - path: node-gles-*-*-*.node
       name: node-gles
@@ -111,6 +108,3 @@
     - yarn install
   build_script:
     - yarn build
-  test_script:
-    - ps: set-location -path C:\repositories\node-gles
-    - yarn test
