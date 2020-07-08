@@ -11,7 +11,6 @@
   os: Visual Studio 2013
   platform:
     - x64
-    - x86
   build: off
   clone_folder: C:\repositories\node-gles
   # This is adapted from the appveyor.yml in node-sass.
@@ -75,7 +74,7 @@
   skip_tags: true
   os: Visual Studio 2013
   platform:
-    - x86
+    - x64
   build: off
   clone_folder: C:\repositories\node-gles
   # This is adapted from the appveyor.yml in node-sass.

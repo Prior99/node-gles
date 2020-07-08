@@ -11,9 +11,16 @@ Future plans include surfacing an API for running [Compute Shaders](https://www.
 
 ## Supported platforms
 
-* Mac OS
-* Windows
-* Linux
+This is a native Addon to NodeJS which delivers prebuilt binaries. Only some environments are supported:
+
+| Node Version       | Windows 64-Bit | Windows 32-Bit | Linux 64-Bit | Linux 32-Bit | OSX |
+| ------------------ | -------------- | -------------- | ------------ | ------------ | --- |
+| Earlier            | ✗              | ✗              | ✗            | ✗            | ✗   |
+| Node 10 _(Abi 64)_ | ✓              | ✗              | ✓            | ✗            | ✓   |
+| Node 11 _(Abi 67)_ | ✓              | ✗              | ✓            | ✗            | ✓   |
+| Node 12 _(Abi 72)_ | ✓              | ✗              | ✓            | ✗            | ✓   |
+| Node 13 _(Abi 79)_ | ✓              | ✗              | ✓            | ✗            | ✓   |
+| Node 14 _(Abi 83)_ | ✓              | ✗              | ✓            | ✗            | ✓   |
 
 ## Creating a WebGL context
 
@@ -33,9 +40,11 @@ gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 ```
 
 ## Run demo
-*Clone this repo for current demos - examples coming soon*
 
-* Float32 texture upload and download:
+_Clone this repo for current demos - examples coming soon_
+
+- Float32 texture upload and download:
+
 ```sh
 $ yarn ts-node src/tests/float_texture_upload_test.ts
 ...
@@ -43,14 +52,17 @@ $ yarn ts-node src/tests/float_texture_upload_test.ts
 buffer:  Float32Array [ 0.5, 1.5, 2.5, 3.5 ]
 ```
 
-* Float16 texture upload and download:
+- Float16 texture upload and download:
+
 ```sh
 $ yarn ts-node src/tests/half_float_texture_upload_test.ts
 ...
 
 buffer:  Float32Array [ 0.5, 1.5, 2.5, 3.5 ]
 ```
-* Unsigned byte texture upload and download:
+
+- Unsigned byte texture upload and download:
+
 ```sh
 $ yarn ts-node src/tests/unsigned_byte_texture_upload_test.ts
 ...
@@ -59,6 +71,7 @@ buffer:  Uint8Array [ 1, 2, 3, 4 ]
 ```
 
 ## Development
-*Build instructions are under heavy development and will include an Angle binary*
+
+_Build instructions are under heavy development and will include an Angle binary_
 
 This project currently requires ANGLE to be checked out and built in the same parent folder as this repo. [Checkout and build ANGLE](https://github.com/google/angle/blob/master/doc/DevSetup.md) with the `Debug` setup. After ANGLE is built, run `yarn` for this project.
