@@ -48,8 +48,11 @@
     - yarn install
   build_script:
     - yarn build
+  test_script:
+    - yarn lint
+    - yarn test
   artifacts:
-    - path: node-gles-*-*-*.node
+    - path: node-gles-*-*-*.zip
       name: node-gles
   deploy:
     - provider: GitHub
@@ -108,3 +111,6 @@
     - yarn install
   build_script:
     - yarn build
+  test_script:
+    - yarn lint
+    - yarn test
