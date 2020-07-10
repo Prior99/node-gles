@@ -9,7 +9,7 @@
         "url": "https://github.com/Prior99/node-gles"
     },
     "engines": {
-        "node": ">=8.11.0"
+        "node": ">=10"
     },
     "license": "Apache-2.0",
     "files": [
