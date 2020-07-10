@@ -8,7 +8,7 @@ const { PassThrough } = require("stream");
 const { options } = require("./proxy");
 
 const platform = os.platform().toLowerCase();
-const depsPath = join(__dirname, "..", "..", "deps");
+const depsPath = join(__dirname, "..", "deps");
 const anglePath = join(depsPath, "angle", "out", "Release");
 
 function getAngleDownloadUrl() {

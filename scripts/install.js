@@ -1,12 +1,12 @@
 const { join } = require("path");
-const { baseName, qualifiedName  } = require("../src/file-name");
+const { qualifiedName, zipName  } = require("../src/file-name");
 const fetch = require("node-fetch");
 const { promises, existsSync } = require("fs");
 const { options } = require("./proxy");
 const AdmZip = require("adm-zip");
 
 async function downloadBundle() {
-    const { version, repository } = JSON.parse(await promises.readFile(join(__dirname, "..", "..", "package.json"), "utf8"));
+    const { version, repository } = JSON.parse(await promises.readFile(join(__dirname, "..", "package.json"), "utf8"));
     if (existsSync(qualifiedName)) {
         return;
     }
@@ -22,7 +22,7 @@ async function downloadBundle() {
         process.env["NODE_GLES_BINARY_URL"] ||
         process.env["npm_config_node_gles_binary_url"] ||
         `${repository.url}/releases/download`;
-    const url = `${baseUrl}/v${version}/${baseName}`;
+    const url = `${baseUrl}/v${version}/${zipName}`;
 
     console.info(`Downloading node-gles prebuilt binary from "${url}".`);
 
