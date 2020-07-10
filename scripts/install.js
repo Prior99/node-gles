@@ -1,12 +1,11 @@
-import { join } from "path";
-import { baseName } from "../file-name";
-import fetch from "node-fetch";
-import { promises, existsSync } from "fs";
-import { options } from "../proxy";
-import AdmZip from "adm-zip";
-import { qualifiedName } from "../file-name";
+const { join } = require("path");
+const { baseName, qualifiedName  } = require("../src/file-name");
+const fetch = require("node-fetch");
+const { promises, existsSync } = require("fs");
+const { options } = require("./proxy");
+const AdmZip = require("adm-zip");
 
-async function downloadBundle(): Promise<void> {
+async function downloadBundle() {
     const { version, repository } = JSON.parse(await promises.readFile(join(__dirname, "..", "..", "package.json"), "utf8"));
     if (existsSync(qualifiedName)) {
         return;

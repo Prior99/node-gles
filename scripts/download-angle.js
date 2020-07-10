@@ -1,17 +1,17 @@
-import { promises, existsSync } from "fs";
-import { join } from "path";
-import * as tar from "tar";
-import * as os from "os";
-import fetch from "node-fetch";
-import AdmZip from "adm-zip";
-import { PassThrough } from "stream";
-import { options } from "../proxy";
+const { promises, existsSync } = require("fs");
+const { join } = require("path");
+const tar = require("tar");
+const os = require("os");
+const fetch = require("node-fetch");
+const AdmZip = require("adm-zip");
+const { PassThrough } = require("stream");
+const { options } = require("./proxy");
 
 const platform = os.platform().toLowerCase();
 const depsPath = join(__dirname, "..", "..", "deps");
 const anglePath = join(depsPath, "angle", "out", "Release");
 
-function getAngleDownloadUrl(): string {
+function getAngleDownloadUrl() {
     const platformArch = `${platform}-${os.arch().toLowerCase()}`;
     const baseUrl = "https://storage.googleapis.com/angle-builds";
     switch (platform) {
@@ -26,7 +26,7 @@ function getAngleDownloadUrl(): string {
     }
 }
 
-async function extractWindows(buffer: Buffer): Promise<void> {
+async function extractWindows(buffer) {
     const zip = new AdmZip(buffer);
     await new Promise((resolve, reject) =>
         zip.extractAllToAsync(depsPath, true, (err) => (err ? reject(err) : resolve())),
@@ -37,7 +37,7 @@ async function extractWindows(buffer: Buffer): Promise<void> {
     await promises.rename(join(anglePath, "libEGL.dll.lib"), join(anglePath, "libEGL.lib"));
 }
 
-function extractLinux(buffer: Buffer): Promise<void> {
+function extractLinux(buffer) {
     return new Promise((resolve, reject) => {
         const extract = tar.extract({ cwd: depsPath, strict: true });
         const stream = new PassThrough();
@@ -48,7 +48,7 @@ function extractLinux(buffer: Buffer): Promise<void> {
     });
 }
 
-async function downloadAngleLibs(): Promise<void> {
+async function downloadAngleLibs() {
     const downloadUrl = getAngleDownloadUrl();
     console.log(`Downloading ANGLE from: ${downloadUrl}`);
 
