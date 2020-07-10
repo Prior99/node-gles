@@ -16,15 +16,14 @@
  */
 
 import * as fs from "fs";
-import { qualifiedName } from "./file-name";
+import bindings from "bindings";
+import { NodeJsGlBinding } from "./binding";
 
-if (!fs.existsSync(qualifiedName)) {
-    throw new Error(`Unable to find native addon file "${qualifiedName}".`);
+if (!fs.existsSync("build")) {
+    throw new Error(`Unable to find build directory.`);
 }
 
-// tslint:disable-next-line:no-require-imports
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const binding = require(qualifiedName);
+const binding = bindings("nodejs_gl_binding") as NodeJsGlBinding;
 
 interface ContextArguments {
     width?: number;

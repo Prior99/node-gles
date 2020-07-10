@@ -5,11 +5,16 @@ const os = require("os");
 const fetch = require("node-fetch");
 const AdmZip = require("adm-zip");
 const { PassThrough } = require("stream");
-const { options } = require("./proxy");
+const { HttpsProxyAgent } = require("https-proxy-agent");
 
 const platform = os.platform().toLowerCase();
 const depsPath = join(__dirname, "..", "deps");
 const anglePath = join(depsPath, "angle", "out", "Release");
+const proxy =
+    process.env["HTTPS_PROXY"] || process.env["https_proxy"] || process.env["HTTP_PROXY"] || process.env["http_proxy"];
+const options = {
+    agent: proxy ? (new HttpsProxyAgent(proxy)) : undefined, // eslint-disable-line
+};
 
 function getAngleDownloadUrl() {
     const platformArch = `${platform}-${os.arch().toLowerCase()}`;

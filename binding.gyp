@@ -19,7 +19,18 @@
   'variables' : {
     'angle_lib_dir': '<(module_root_dir)/deps/angle/out/Release'
   },
-  'targets' : [{
+  'targets' : [
+    {
+      'target_name': 'nodejs_gl_binding-postbuild',
+      'dependencies': ['nodejs_gl_binding'],
+          'copies': [{
+            'destination': '<(module_root_dir)/build/Release',
+            'files': [
+              "<!@(node -p \"require('fs').readdirSync('./deps/angle/out/Release').map(f=>'deps/angle/out/Release/'+f).join(' ')\")"
+            ]
+          }]
+    },
+    {
     'target_name' : 'nodejs_gl_binding',
     'sources' : [
       'binding/binding.cc',
@@ -37,30 +48,38 @@
       [
         'OS=="linux"', {
           'libraries' : [
-            '-Wl,-rpath,<@(angle_lib_dir)',
             '-lGLESv2',
             '-lEGL',
           ],
+          'cflags': [ '-std=c++11', '-O0' ],
+          'cflags!': [ '-O3'],
+          'cflags_cc!': [ '-std=gnu++1y', '-O3' ],
           'library_dirs' : ['<(angle_lib_dir)'],
-        }
-      ],
-      [
-        'OS=="mac"', {
-          'libraries' : [
-            '-Wl,-rpath,<@(angle_lib_dir)',
-            '-lGLESv2',
-            '-lEGL',
+          'ldflags': [
+            '-Wl,-rpath \'-Wl,$$ORIGIN\''
           ],
-          'library_dirs' : ['<(angle_lib_dir)'],
         }
-      ],
-      [
-        'OS=="win"', {
-          'defines': ['COMPILER_MSVC'],
-          'libraries': ['libGLESv2', 'libEGL'],
-          'library_dirs' : ['<(angle_lib_dir)'],
-        },
       ]
+      # [
+      #   'OS=="mac"', {
+      #     'libraries' : [
+      #       '-lGLESv2',
+      #       '-lEGL',
+      #     ],
+      #     'cflags': [ '-std=c++11' ],
+      #     'library_dirs' : ['<(angle_lib_dir)'],
+      #     'ldflags': [
+      #       '-Wl,-rpath \'-Wl,$$ORIGIN\''
+      #     ],
+      #   }
+      # ],
+      # [
+      #   'OS=="win"', {
+      #     'defines': ['COMPILER_MSVC'],
+      #     'libraries': ['libGLESv2', 'libEGL'],
+      #     'library_dirs' : ['<(angle_lib_dir)'],
+      #   },
+      # ]
     ]
   }]
 }
