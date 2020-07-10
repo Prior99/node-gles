@@ -21,6 +21,7 @@
     ],
     "scripts": {
         "format": "clang-format -i -style=Google binding/*.cc binding/*.h",
+        "prepare": "tsc -p .",
         "install": "node dist/scripts/install.js",
         "prebuild": "tsc -p . && node dist/scripts/download-angle.js",
         "build": "node-gyp rebuild",
