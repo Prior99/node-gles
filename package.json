@@ -20,9 +20,8 @@
         "dist/"
     ],
     "scripts": {
-        "build-npm": "./scripts/build-npm.sh",
         "format": "clang-format -i -style=Google binding/*.cc binding/*.h",
-        "install": "node scripts/install.js",
+        "install": "node dist/scripts/install.js",
         "prebuild": "tsc -p . && node dist/scripts/download-angle.js",
         "build": "node-gyp rebuild",
         "postbuild": "node dist/scripts/zip.js",
